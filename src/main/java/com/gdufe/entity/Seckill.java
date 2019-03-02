@@ -3,23 +3,19 @@ package com.gdufe.entity;
 import java.util.Date;
 
 public class Seckill {
-    private Long seckillId;
 
+	private long seckillId;
     private String name;
-
-    private Integer number;
-
+    private int number;
     private Date startTime;
-
     private Date endTime;
+    private Date createTime;
 
-    private Date creatTime;
-
-    public Long getSeckillId() {
+    public long getSeckillId() {
         return seckillId;
     }
 
-    public void setSeckillId(Long seckillId) {
+    public void setSeckillId(long seckillId) {
         this.seckillId = seckillId;
     }
 
@@ -28,14 +24,14 @@ public class Seckill {
     }
 
     public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+        this.name = name;
     }
 
-    public Integer getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 
@@ -55,22 +51,23 @@ public class Seckill {
         this.endTime = endTime;
     }
 
-    public Date getCreatTime() {
-        return creatTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatTime(Date creatTime) {
-        this.creatTime = creatTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
-    
+
+    @Override
     public String toString() {
-		return "Seckill{" +
+        return "Seckill{" +
                 "seckillId=" + seckillId +
                 ", name='" + name + '\'' +
                 ", number=" + number +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
-                ", createTime=" + creatTime +
+                ", createTime=" + createTime +
                 '}';
-	}
+    }
 }

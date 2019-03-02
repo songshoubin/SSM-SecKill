@@ -15,10 +15,7 @@ import com.gdufe.dao.SuccessKilledMapper;
 import com.gdufe.dto.Exposer;
 import com.gdufe.dto.SeckillExecution;
 import com.gdufe.entity.Seckill;
-import com.gdufe.entity.SeckillExample;
-import com.gdufe.entity.SeckillExample.Criteria;
 import com.gdufe.entity.SuccessKilled;
-import com.gdufe.entity.SuccessKilledExample;
 import com.gdufe.enums.SeckillStatEnum;
 import com.gdufe.exception.RepeatKillException;
 import com.gdufe.exception.SeckillCloseException;
@@ -27,7 +24,7 @@ import com.gdufe.service.SeckillService;
 @Service
 public class SeckillServiceImpl implements SeckillService{
 	//日志对象
-	private Logger log = LoggerFactory.getLogger(this.getClass());
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private SeckillMapper seckillDao;
@@ -38,23 +35,18 @@ public class SeckillServiceImpl implements SeckillService{
 	private final String salt = "jglhlghlsghel/;lkk";
 	@Override
 	public List<Seckill> getAllSeckill() {
-		//使用Example动态查询
-    	SeckillExample example = new SeckillExample(); 
-    	//如果1005没有则不输出
-    	Criteria criteria = example.createCriteria().andSeckillIdBetween(1001L, 1005L);
-    	
-		return seckillDao.selectByExample(example);
+		return seckillDao.queryAll(0, 4);
 	}
 
 	@Override
 	public Seckill getById(long seckillId) {
 		// TODO Auto-generated method stub
-		return seckillDao.selectByPrimaryKey(seckillId);
+		return seckillDao.queryById(seckillId);
 	}
 
 	@Override
 	public Exposer exportSeckillUrl(long seckillId) {
-		Seckill seckill = seckillDao.selectByPrimaryKey(seckillId);
+		Seckill seckill = seckillDao.queryById(seckillId);
 		
 		//如果seckill为空 
 		if(seckill==null){
@@ -101,12 +93,8 @@ public class SeckillServiceImpl implements SeckillService{
         Date nowTime = new Date();
 
         try {
-        	SuccessKilled successKilled = new SuccessKilled();
-        	successKilled.setSeckillId(seckillId);
-        	successKilled.setUserPhone(userPhone);
-        	
-            //否则更新了库存，秒杀成功,增加明细
-            int insertCount = successKilledDao.insert(successKilled);
+        	 //否则更新了库存，秒杀成功,增加明细
+            int insertCount = successKilledDao.insertSuccessKilled(seckillId, userPhone);
             //看是否该明细被重复插入，即用户是否重复秒杀
             if (insertCount <= 0) {
                 throw new RepeatKillException("seckill repeated");
@@ -119,8 +107,8 @@ public class SeckillServiceImpl implements SeckillService{
                     throw new SeckillCloseException("seckill is closed");
                 } else {
                     //秒杀成功,得到成功插入的明细记录,并返回成功秒杀的信息 commit
-                    SuccessKilled successKilled1 = successKilledDao.queryByIdWithSeckill(seckillId, userPhone);
-                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilled1);
+                    SuccessKilled successKilled = successKilledDao.queryByIdWithSeckill(seckillId, userPhone);
+                    return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS, successKilled);
                 }
 
             }
@@ -131,7 +119,7 @@ public class SeckillServiceImpl implements SeckillService{
         } catch (RepeatKillException e2) {
             throw e2;
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
+            logger.error(e.getMessage(), e);
             //所以编译期异常转化为运行期异常
             throw new SeckillException("seckill inner error :" + e.getMessage());
         }

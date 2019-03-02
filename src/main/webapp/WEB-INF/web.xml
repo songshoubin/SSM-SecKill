@@ -9,10 +9,6 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <!-- spring监听器 -->
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
 	<!-- spring配置文件 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>

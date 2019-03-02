@@ -2,7 +2,7 @@ package com.gdufe.entity;
 
 import java.util.Date;
 
-public class SuccessKilled extends SuccessKilledKey {
+public class SuccessKilled {
     private Byte state;
 
     private Date creatTime;

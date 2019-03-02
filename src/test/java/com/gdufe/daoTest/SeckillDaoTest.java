@@ -13,9 +13,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.gdufe.dao.SeckillMapper;
 import com.gdufe.entity.Seckill;
-import com.gdufe.entity.SeckillExample;
-import com.gdufe.entity.SeckillExample.Criteria;
-
 /**
  * Created by codingBoy on 16/11/27.
  * 配置spring和junit整合，这样junit在启动时就会加载spring容器
@@ -33,7 +30,7 @@ public class SeckillDaoTest {
     @Test
     public void queryById() throws Exception {
         long seckillId=1001L;
-        Seckill seckill=seckillDao.selectByPrimaryKey(seckillId);
+        Seckill seckill=seckillDao.queryById(seckillId);
         if(seckill!=null){
         System.out.println(seckill.getName());
         System.out.println(seckill.toString());
@@ -45,12 +42,8 @@ public class SeckillDaoTest {
 
     @Test
     public void queryAll() throws Exception {
-    	//使用Example动态查询
-    	SeckillExample example = new SeckillExample(); 
-    	//如果1005没有则不输出
-    	Criteria criteria = example.createCriteria().andSeckillIdBetween(1001L, 1005L);
     	
-        List<Seckill> seckills=seckillDao.selectByExample(example);
+        List<Seckill> seckills=seckillDao.queryAll(0, 4);
         for (Seckill seckill : seckills)
         {
             System.out.println(seckill);
@@ -59,16 +52,7 @@ public class SeckillDaoTest {
 
     @Test
     public void reduceNumber() throws Exception {
-    	/*//使用Example动态查询
-    	SeckillExample example = new SeckillExample(); 
-    	long seckillId=1001;
-    	Seckill seckill = new Seckill();
-    	seckill.setSeckillId(seckillId);
-        Date date=new Date();
-    	Criteria criteria = example.createCriteria();
-    	criteria.andSeckillIdEqualTo(seckillId);
-        criteria.andStartTimeLessThan(date);
-        criteria.andEndTimeGreaterThan(date);*/
+    	
     	long seckillId=1001;
     	Date date = new Date();
         int updateCount=seckillDao.reduceNumber(seckillId, date);

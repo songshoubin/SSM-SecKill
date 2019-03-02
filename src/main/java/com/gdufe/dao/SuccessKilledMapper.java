@@ -1,34 +1,23 @@
 package com.gdufe.dao;
 
 import com.gdufe.entity.SuccessKilled;
-import com.gdufe.entity.SuccessKilledExample;
-import com.gdufe.entity.SuccessKilledKey;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface SuccessKilledMapper {
-	//手写的sql语句  查询秒杀成功记录
-	SuccessKilled queryByIdWithSeckill(@Param("seckillId") long seckillId,@Param("userPhone") long userPhone);
-	
-    long countByExample(SuccessKilledExample example);
+	/**
+     * 插入购买明细,可过滤重复
+     * @param seckillId
+     * @param userPhone
+     * @return插入的行数
+     */
+    int insertSuccessKilled(@Param("seckillId") long seckillId, @Param("userPhone") long userPhone);
 
-    int deleteByExample(SuccessKilledExample example);
 
-    int deleteByPrimaryKey(SuccessKilledKey key);
-
-    int insert(SuccessKilled record);
-
-    int insertSelective(SuccessKilled record);
-
-    List<SuccessKilled> selectByExample(SuccessKilledExample example);
-
-    SuccessKilled selectByPrimaryKey(SuccessKilledKey key);
-
-    int updateByExampleSelective(@Param("record") SuccessKilled record, @Param("example") SuccessKilledExample example);
-
-    int updateByExample(@Param("record") SuccessKilled record, @Param("example") SuccessKilledExample example);
-
-    int updateByPrimaryKeySelective(SuccessKilled record);
-
-    int updateByPrimaryKey(SuccessKilled record);
+    /**
+     * 根据秒杀商品的id查询明细SuccessKilled对象(该对象携带了Seckill秒杀产品对象)
+     * @param seckillId
+     * @return
+     */
+    SuccessKilled queryByIdWithSeckill(@Param("seckillId") long seckillId,@Param("userPhone") long userPhone);
 }
