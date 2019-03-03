@@ -35,7 +35,7 @@ public class SeckillServiceImpl implements SeckillService{
 	private final String salt = "jglhlghlsghel/;lkk";
 	@Override
 	public List<Seckill> getAllSeckill() {
-		return seckillDao.queryAll(0, 4);
+		return seckillDao.queryAll(0,4);
 	}
 
 	@Override

@@ -30,22 +30,18 @@ import com.gdufe.service.Impl.SeckillServiceImpl;
 @Controller
 @RequestMapping("/seckill")
 public class SeckillController {
-	SeckillService seckillService = new SeckillServiceImpl();
+	@Autowired
+	private SeckillService seckillService;
 	
-	//查询所有商品     ？空指针异常
+	//查询所有商品  
 	@RequestMapping(value="/list",method=RequestMethod.GET)
-	public String list(Model model){
+	public String  list(Model model){
 		List<Seckill> list = seckillService.getAllSeckill();
-		if(list==null){
-			System.out.println("指针为空");
-		}
-		//list.jsp+model=ModelAndView
-		else
 		model.addAttribute("list",list);
 		return "list";//WEB-INF/jsp/list.jsp
 	}
 	
-	//根据Id查询秒杀商品  ？空指针异常
+	//根据Id查询秒杀商品 ,并返回改商品的详情页
 	@RequestMapping(value="/{seckillId}/detail",method=RequestMethod.GET)
 	public String detail(@PathVariable("seckillId") Long seckillId,Model model){
 		if(seckillId==null){
@@ -70,6 +66,7 @@ public class SeckillController {
 		SeckillResult<Exposer> result ;
 		try {
 			Exposer exposer = seckillService.exportSeckillUrl(seckillId);
+			System.out.println(seckillService);
 			result = new SeckillResult<Exposer>(true, exposer);
 			
 		} catch (Exception e) {

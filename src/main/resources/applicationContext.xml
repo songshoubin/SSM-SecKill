@@ -25,8 +25,8 @@
         <property name="acquireRetryAttempts" value="2"/>
     </bean>
 	<!-- 自动扫描包中的bean （使用注解生成实例、不然要一个个配置）-->
-	<context:component-scan base-package="com.gdufe"/>
-
+	<!-- <context:component-scan base-package="com.gdufe"/> -->
+	<context:component-scan base-package="com.gdufe"></context:component-scan>
    <!-- 扫描mapper接口（即dao），Spring会自动查找其下的类 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.gdufe.dao" />
