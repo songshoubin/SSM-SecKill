@@ -59,7 +59,7 @@ public class SeckillServiceTest {
 
             System.out.println(exposer);
 
-            long userPhone=13476191876L;
+            long userPhone=13476191875L;
             String md5=exposer.getMd5();
 
             try {

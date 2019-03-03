@@ -82,6 +82,7 @@ public class SeckillController {
 	public SeckillResult<SeckillExecution> execute(@PathVariable("seckillId") Long seckillId,
 			@PathVariable("md5") String md5,@CookieValue(value="killPhone",required=false) Long phone){
 		// springmvc valid 以后学一下 spring的验证信息
+		System.out.println("execution方法执行了");
 				if (phone == null) {
 					return new SeckillResult<SeckillExecution>(false, "未注册");
 				}
