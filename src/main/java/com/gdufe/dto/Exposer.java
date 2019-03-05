@@ -1,5 +1,9 @@
 package com.gdufe.dto;
-
+/**
+ * 
+ * @author song
+ *
+ */
 public class Exposer {
 
 	//是否开启秒杀

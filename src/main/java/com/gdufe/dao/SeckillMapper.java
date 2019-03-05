@@ -8,7 +8,11 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.gdufe.entity.Seckill;
-
+/**
+ * 
+ * @author song
+ *
+ */
 public interface SeckillMapper {
 	 /**
      * 减库存

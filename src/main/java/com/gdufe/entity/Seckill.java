@@ -2,6 +2,11 @@ package com.gdufe.entity;
 
 import java.util.Date;
 
+/**
+ * 
+ * @author song
+ *
+ */
 public class Seckill {
 
 	private long seckillId;

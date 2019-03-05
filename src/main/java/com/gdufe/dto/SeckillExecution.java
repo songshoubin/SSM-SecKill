@@ -7,6 +7,11 @@ package com.gdufe.dto;
 
 import com.gdufe.entity.SuccessKilled;
 import com.gdufe.enums.SeckillStatEnum;
+/**
+ * 
+ * @author song
+ *
+ */
 public class SeckillExecution{
 	private long seckillId;
 	

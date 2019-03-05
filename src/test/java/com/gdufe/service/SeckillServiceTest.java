@@ -1,4 +1,4 @@
-package com.gdufe.serviceTest;
+package com.gdufe.service;
 
 
 import org.junit.Test;
@@ -21,7 +21,9 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 /**
- * Created by codingBoy on 16/11/28.
+ * 
+ * @author song
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 //告诉junit spring的配置文件
@@ -58,7 +60,6 @@ public class SeckillServiceTest {
         {
 
             System.out.println(exposer);
-
             long userPhone=13476191875L;
             String md5=exposer.getMd5();
 

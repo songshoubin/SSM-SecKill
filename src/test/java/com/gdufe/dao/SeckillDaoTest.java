@@ -1,4 +1,4 @@
-package com.gdufe.daoTest;
+package com.gdufe.dao;
 
 
 import java.util.Date;
@@ -13,10 +13,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.gdufe.dao.SeckillMapper;
 import com.gdufe.entity.Seckill;
+
 /**
- * Created by codingBoy on 16/11/27.
+ *@author song
  * 配置spring和junit整合，这样junit在启动时就会加载spring容器
  */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 //告诉junit spring的配置文件
 @ContextConfiguration({"classpath:applicationContext.xml"})
@@ -26,17 +28,16 @@ public class SeckillDaoTest {
     @Resource
     private SeckillMapper seckillDao;
 
-
     @Test
     public void queryById() throws Exception {
-        long seckillId=1001L;
+        long seckillId=1001;
         Seckill seckill=seckillDao.queryById(seckillId);
         if(seckill!=null){
-        System.out.println(seckill.getName());
-        System.out.println(seckill.toString());
+	        System.out.println(seckill.getName());
+	        System.out.println(seckill.toString());
         }
         else{
-        	System.out.println("空指针");
+        	System.out.println("queryById测试不通过/该商品不存在");
         }
     }
 
@@ -52,12 +53,10 @@ public class SeckillDaoTest {
 
     @Test
     public void reduceNumber() throws Exception {
-    	
     	long seckillId=1001;
     	Date date = new Date();
         int updateCount=seckillDao.reduceNumber(seckillId, date);
         System.out.println(updateCount);
-
     }
 
 

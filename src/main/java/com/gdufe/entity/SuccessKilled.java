@@ -1,7 +1,11 @@
 package com.gdufe.entity;
 
 import java.util.Date;
-
+/**
+ * 
+ * @author song
+ *
+ */
 public class SuccessKilled {
     private Byte state;
 
@@ -21,5 +25,12 @@ public class SuccessKilled {
 
     public void setCreatTime(Date creatTime) {
         this.creatTime = creatTime;
+    }
+    
+    public String toString() {
+        return "SuccessKilled{" +
+                "state=" + state +
+                ", createTime=" + creatTime +
+                '}';
     }
 }

@@ -1,5 +1,9 @@
 package com.gdufe.enums;
-
+/**
+ * 
+ * @author song
+ *
+ */
 public enum SeckillStatEnum {
 
 	SUCCESS(1,"秒杀成功"),

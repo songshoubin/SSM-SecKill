@@ -3,7 +3,11 @@ package com.gdufe.dao;
 import com.gdufe.entity.SuccessKilled;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-
+/**
+ * 
+ * @author song
+ *
+ */
 public interface SuccessKilledMapper {
 	/**
      * 插入购买明细,可过滤重复

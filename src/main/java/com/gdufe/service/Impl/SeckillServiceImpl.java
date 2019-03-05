@@ -1,6 +1,7 @@
 package com.gdufe.service.Impl;
 
 import java.util.Date;
+
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.util.DigestUtils;
 
 import com.gdufe.dao.SeckillMapper;
 import com.gdufe.dao.SuccessKilledMapper;
+import com.gdufe.dao.cache.RedisDao;
 import com.gdufe.dto.Exposer;
 import com.gdufe.dto.SeckillExecution;
 import com.gdufe.entity.Seckill;
@@ -21,6 +23,10 @@ import com.gdufe.exception.RepeatKillException;
 import com.gdufe.exception.SeckillCloseException;
 import com.gdufe.exception.SeckillException;
 import com.gdufe.service.SeckillService;
+/**
+ * @author song
+ * 
+ */
 @Service
 public class SeckillServiceImpl implements SeckillService{
 	//日志对象
@@ -32,6 +38,9 @@ public class SeckillServiceImpl implements SeckillService{
 	@Autowired
 	private SuccessKilledMapper successKilledDao;
 	
+	@Autowired
+	private RedisDao redisDao;
+	
 	private final String salt = "jglhlghlsghel/;lkk";
 	@Override
 	public List<Seckill> getAllSeckill() {
@@ -39,14 +48,31 @@ public class SeckillServiceImpl implements SeckillService{
 	}
 
 	@Override
-	public Seckill getById(long seckillId) {
+	public Seckill getById(long seckillId) {//快到接口暴露时间点，会发生高并发
 		// TODO Auto-generated method stub
-		return seckillDao.queryById(seckillId);
+		Seckill seckill = redisDao.getSeckill(seckillId);
+		if (seckill == null) {//如果redis中没有就去mysql中获取
+			System.out.println("111");
+			seckill = seckillDao.queryById(seckillId);
+		}
+		else {
+			redisDao.putSeckill(seckill);
+		}
+		return seckill;
 	}
 
 	@Override
 	public Exposer exportSeckillUrl(long seckillId) {
-		Seckill seckill = seckillDao.queryById(seckillId);
+		/**
+		 * 
+		 * 缓存优化1 ：将商品放到redis缓存中去
+		 *  
+		 * get from cache
+		 * if null
+		 * 	  get db
+		 *	  put cache
+		 */
+		Seckill seckill = getById(seckillId);//调用本类的getById方法  高并发发生接口
 		
 		//如果seckill为空 
 		if(seckill==null){
@@ -75,7 +101,7 @@ public class SeckillServiceImpl implements SeckillService{
 	
 	 //秒杀是否成功，成功:减库存，增加明细；失败:抛出异常，事务回滚
     @Override
-    @Transactional
+    @Transactional//更新数据库需要添加事务管理
     /**
      * 使用注解控制事务方法的优点:
      * 1.开发团队达成一致约定，明确标注事务方法的编程风格
