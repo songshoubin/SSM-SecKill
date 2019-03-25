@@ -49,16 +49,7 @@ public class SeckillServiceImpl implements SeckillService{
 
 	@Override
 	public Seckill getById(long seckillId) {//快到接口暴露时间点，会发生高并发
-		// TODO Auto-generated method stub
-		Seckill seckill = redisDao.getSeckill(seckillId);
-		if (seckill == null) {//如果redis中没有就去mysql中获取
-			System.out.println("111");
-			seckill = seckillDao.queryById(seckillId);
-		}
-		else {
-			redisDao.putSeckill(seckill);
-		}
-		return seckill;
+		return redisDao.getOrPutSeckill(seckillId, id -> seckillDao.queryById(id));
 	}
 
 	@Override
